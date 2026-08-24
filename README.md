@@ -1,3 +1,23 @@
+# Automic Vault Fork Notes
+
+This repository is the Automic Vault fork of ordercli.
+
+Automic Vault is a macOS-first system that keeps developer credentials in
+custody and applies them only after policy or the user allows the complete
+operation requested by verified software.
+
+The [ordercli Isotope work](https://github.com/automic-vault/automic-vault/pull/191)
+routes supported Foodora session credentials through Automic Vault's
+authenticated XPC service while retaining only non-secret configuration and
+markers on disk. Automic Vault's reviewed release workflow builds and signs the
+pinned executable with Hardened Runtime; the Hardener verifies its release
+digest and Automic Vault signature before installation.
+
+This source fork alone does not establish Hardened State. The remainder of this
+README is the original upstream ordercli README.
+
+---
+
 # 🛵 ordercli — Your takeout timeline, in the terminal.
 
 Providers:

@@ -106,6 +106,9 @@ func Load(path string) (Config, error) {
 	if cfg.Providers.Foodora != nil && cfg.Providers.Foodora.DeviceID == "" {
 		cfg.Providers.Foodora.DeviceID = newDeviceID()
 	}
+	if err := hydrateAV(path, &cfg); err != nil {
+		return cfg, err
+	}
 	return cfg, nil
 }
 
@@ -115,6 +118,10 @@ func Save(path string, cfg Config) error {
 	}
 	if cfg.Providers.Foodora != nil && cfg.Providers.Foodora.DeviceID == "" {
 		cfg.Providers.Foodora.DeviceID = newDeviceID()
+	}
+	var err error
+	if cfg, err = prepareAV(path, cfg); err != nil {
+		return err
 	}
 
 	if err := os.MkdirAll(filepath.Dir(path), 0o755); err != nil {

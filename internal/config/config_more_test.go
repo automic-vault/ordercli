@@ -15,11 +15,16 @@ func TestLoad_LegacyFoodoraConfig(t *testing.T) {
 	path := filepath.Join(dir, "legacy.json")
 
 	legacy := FoodoraConfig{
-		BaseURL:      "https://hu.fd-api.com/api/v5/",
-		AccessToken:  "a",
-		RefreshToken: "r",
+		BaseURL:         "https://hu.fd-api.com/api/v5/",
+		AccessToken:     avMarker,
+		RefreshToken:    avMarker,
+		ClientSecret:    avMarker,
+		PendingMfaToken: avMarker,
+		CookiesByHost:   map[string]string{avMarker: avMarker},
 	}
 	b, _ := json.Marshal(legacy)
+	stored, _ := json.Marshal(avCredentials{AccessToken: "a", RefreshToken: "r"})
+	avTestStore.values[path] = stored
 	b = append(b, '\n')
 	if err := os.WriteFile(path, b, 0o600); err != nil {
 		t.Fatalf("write: %v", err)

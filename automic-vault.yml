@@ -1,0 +1,29 @@
+name:
+  isotope:ordercli
+
+replaces:
+  brew:ordercli
+
+build: |
+  GOTOOLCHAIN=go1.25.1 CGO_ENABLED=0 go test -mod=readonly ./internal/config ./internal/cli
+  mkdir -p bin
+  GOTOOLCHAIN=go1.25.1 CGO_ENABLED=0 go build \
+    -mod=readonly -trimpath -buildvcs=true \
+    -o bin/ordercli ./cmd/ordercli
+  codesign --force --options runtime --timestamp \
+    --identifier ordercli \
+    --sign "$CODESIGN_IDENTITY" \
+    bin/ordercli
+  tar czf out.tgz bin/ordercli
+
+justification:
+  title:
+    Unprotected Credential Access
+  detail: |
+    Upstream ordercli stores supported Foodora session credentials in
+    plaintext on disk.
+
+    This isotope routes those credentials through Automic Vault's
+    authenticated XPC service while retaining only non-secret configuration
+    and markers on disk. Plaintext and partially migrated credentials fail
+    closed.

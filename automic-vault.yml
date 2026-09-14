@@ -5,9 +5,9 @@ replaces:
   brew:ordercli
 
 build: |
-  GOTOOLCHAIN=go1.25.1 CGO_ENABLED=0 go test -mod=readonly ./internal/config ./internal/cli
+  GOTOOLCHAIN=go1.27.1 CGO_ENABLED=0 go test -mod=readonly ./internal/config ./internal/cli
   mkdir -p bin
-  GOTOOLCHAIN=go1.25.1 CGO_ENABLED=0 go build \
+  GOTOOLCHAIN=go1.27.1 CGO_ENABLED=0 go build \
     -mod=readonly -trimpath -buildvcs=true \
     -o bin/ordercli ./cmd/ordercli
   codesign --force --options runtime --timestamp \

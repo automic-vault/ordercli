@@ -135,7 +135,9 @@ func newAuthedClient(st *state) (*foodora.Client, error) {
 			return nil, err
 		}
 		cfg.AccessToken = tok.AccessToken
-		cfg.RefreshToken = tok.RefreshToken
+		if tok.RefreshToken != "" {
+			cfg.RefreshToken = tok.RefreshToken
+		}
 		cfg.ExpiresAt = tok.ExpiresAt(now)
 		if cfg.ExpiresAt.IsZero() {
 			if exp, ok := config.AccessTokenExpiresAt(tok.AccessToken); ok {
@@ -143,6 +145,9 @@ func newAuthedClient(st *state) (*foodora.Client, error) {
 			}
 		}
 		st.markDirty()
+		if err := st.save(); err != nil {
+			return nil, err
+		}
 		c.SetAccessToken(tok.AccessToken)
 	}
 

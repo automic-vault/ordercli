@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Keep the stored Foodora refresh token when a refresh response omits one, and save that session before the command returns. Thanks @SebTardif.
+
 ## 0.2.2 (2026-10-20)
 
 **Highlights:** Fix certificate validation vulnerability GO-2026-6809 in release binaries.

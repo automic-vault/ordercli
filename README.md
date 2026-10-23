@@ -140,6 +140,8 @@ If `session refresh` errors with “refresh token … not found”, that site se
 
 ### Orders
 
+Expired Foodora sessions refresh automatically. If the server omits a replacement refresh token, the existing token is retained. Refreshed credentials are saved before fetching orders, so a failed order request does not discard the session.
+
 ```sh
 ./ordercli foodora orders
 ./ordercli foodora orders --watch
